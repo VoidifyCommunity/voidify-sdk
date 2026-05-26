@@ -1,0 +1,1307 @@
+{
+  "address": "",
+  "metadata": {
+    "name": "voidify",
+    "version": "2.0.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "deposit",
+      "discriminator": [
+        242,
+        35,
+        198,
+        137,
+        82,
+        225,
+        242,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool.denomination",
+                "account": "Pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool_treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  105,
+                  116,
+                  109,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "commitment"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "direct_withdraw",
+      "discriminator": [
+        136,
+        23,
+        192,
+        118,
+        222,
+        36,
+        109,
+        50
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool.denomination",
+                "account": "Pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool_treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "treasury_sol_destination",
+          "writable": true
+        },
+        {
+          "name": "nullifier_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof",
+          "type": {
+            "array": [
+              "u8",
+              256
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "treasury",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "relayer_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "relayer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer_stake",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  115,
+                  116,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "relayer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer_event_counter",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116,
+                  101,
+                  114
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "core_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  114,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  107,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_token_mint"
+        },
+        {
+          "name": "treasury_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "oracle_config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  114,
+                  97,
+                  99,
+                  108,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer_stake_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  45,
+                  115,
+                  116,
+                  97,
+                  107,
+                  101,
+                  45,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "relayer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "staking_reward_vault",
+          "writable": true
+        },
+        {
+          "name": "treasury_token_account",
+          "writable": true
+        },
+        {
+          "name": "switchboard_quote"
+        },
+        {
+          "name": "pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool.denomination",
+                "account": "Pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool_treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "nullifier_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof",
+          "type": {
+            "array": [
+              "u8",
+              256
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "treasury",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OracleConfig",
+      "discriminator": [
+        133,
+        196,
+        152,
+        50,
+        27,
+        21,
+        145,
+        254
+      ]
+    },
+    {
+      "name": "Pool",
+      "discriminator": [
+        241,
+        154,
+        109,
+        4,
+        17,
+        177,
+        109,
+        188
+      ]
+    },
+    {
+      "name": "RelayerConfig",
+      "discriminator": [
+        116,
+        239,
+        42,
+        132,
+        218,
+        154,
+        194,
+        20
+      ]
+    },
+    {
+      "name": "RelayerEventCounter",
+      "discriminator": [
+        118,
+        57,
+        230,
+        191,
+        246,
+        87,
+        159,
+        143
+      ]
+    },
+    {
+      "name": "StakeConfig",
+      "discriminator": [
+        238,
+        151,
+        43,
+        3,
+        11,
+        151,
+        63,
+        176
+      ]
+    },
+    {
+      "name": "TreasuryConfig",
+      "discriminator": [
+        124,
+        54,
+        212,
+        227,
+        213,
+        189,
+        168,
+        41
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "DepositEvent",
+      "discriminator": [
+        120,
+        248,
+        61,
+        83,
+        31,
+        142,
+        107,
+        144
+      ]
+    },
+    {
+      "name": "DirectWithdrawalEvent",
+      "discriminator": [
+        171,
+        152,
+        233,
+        75,
+        200,
+        77,
+        18,
+        17
+      ]
+    },
+    {
+      "name": "RelayerActivatedEvent",
+      "discriminator": [
+        194,
+        184,
+        115,
+        231,
+        144,
+        82,
+        243,
+        243
+      ]
+    },
+    {
+      "name": "RelayerDeactivatedEvent",
+      "discriminator": [
+        61,
+        214,
+        119,
+        135,
+        63,
+        139,
+        211,
+        121
+      ]
+    },
+    {
+      "name": "RelayerRegisteredEvent",
+      "discriminator": [
+        145,
+        107,
+        62,
+        237,
+        228,
+        45,
+        135,
+        112
+      ]
+    },
+    {
+      "name": "RelayerSlashedEvent",
+      "discriminator": [
+        26,
+        12,
+        143,
+        166,
+        17,
+        87,
+        146,
+        7
+      ]
+    },
+    {
+      "name": "RelayerUnregisteredEvent",
+      "discriminator": [
+        181,
+        160,
+        79,
+        218,
+        0,
+        62,
+        181,
+        18
+      ]
+    },
+    {
+      "name": "RelayerUpdatedEvent",
+      "discriminator": [
+        69,
+        205,
+        109,
+        92,
+        132,
+        196,
+        237,
+        220
+      ]
+    },
+    {
+      "name": "WithdrawalEvent",
+      "discriminator": [
+        161,
+        53,
+        185,
+        18,
+        98,
+        254,
+        54,
+        165
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "DepositEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "depositor",
+            "type": "pubkey"
+          },
+          {
+            "name": "denomination",
+            "type": "u64"
+          },
+          {
+            "name": "commitment",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "index",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DirectWithdrawalEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "denomination",
+            "type": "u64"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "nullifier_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "sender",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "max_price_age_secs",
+            "type": "u64"
+          },
+          {
+            "name": "switchboard_feed_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "denomination",
+            "type": "u64"
+          },
+          {
+            "name": "merkle_tree",
+            "type": {
+              "defined": {
+                "name": "PoseidonMerkleTree"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoseidonMerkleTree",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "levels",
+            "type": "u32"
+          },
+          {
+            "name": "filled_subtrees",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "roots",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "current_root_index",
+            "type": "u32"
+          },
+          {
+            "name": "next_index",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerActivatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "stake_amount",
+            "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerDeactivatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "remaining_stake",
+            "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerEventCounter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerRegisteredEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "stake_amount",
+            "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerSlashedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "slashed_amount",
+            "type": "u64"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerUnregisteredEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "returned_amount",
+            "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RelayerUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "url",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "added_amount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stake_token_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "relayer_deactivation_threshold",
+            "type": "u64"
+          },
+          {
+            "name": "min_register_stake",
+            "type": "u64"
+          },
+          {
+            "name": "total_relayers",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TreasuryConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "staking_reward_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_sol_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_token_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_bps",
+            "type": "u16"
+          },
+          {
+            "name": "direct_withdraw_bps",
+            "type": "u16"
+          },
+          {
+            "name": "treasury_split_bps",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawalEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "denomination",
+            "type": "u64"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "nullifier_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "treasury",
+            "type": "u64"
+          },
+          {
+            "name": "token_deducted",
+            "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
