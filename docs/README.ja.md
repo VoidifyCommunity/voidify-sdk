@@ -1,54 +1,54 @@
 # @voidifydao/sdk
 
-[English](README.md) | [中文](docs/README.zh-CN.md) | [Русский](docs/README.ru.md) | [日本語](docs/README.ja.md)
+[English](../README.md) | [中文](README.zh-CN.md) | [Русский](README.ru.md) | [日本語](README.ja.md)
 
-TypeScript SDK and CLI for interacting with the Voidify Solana program.
+Voidify Solana プログラムとやり取りするための TypeScript SDK と CLI です。
 
-The package includes:
+このパッケージには次が含まれます。
 
-- a program client for deriving Voidify PDAs and building Anchor instructions;
-- deposit and withdrawal helpers;
-- note generation and verification utilities;
-- a CLI for users and operators;
-- local/remote substream clients for deposit and relayer event indexing;
-- HTTP services for relayers and substream indexing.
+- Voidify PDA の導出と Anchor instruction の構築に使う program client；
+- deposit と withdrawal の helper；
+- note の生成と検証ユーティリティ；
+- ユーザーと operator 向け CLI；
+- deposit と relayer event indexing 用の local/remote substream clients；
+- relayers と substream indexing 用の HTTP services。
 
-## Installation
+## インストール
 
 ```bash
 npm install @voidifydao/sdk
 ```
 
-The package is ESM-only and targets modern Node.js runtimes.
+このパッケージは ESM-only で、modern Node.js runtime を対象にしています。
 
 ## CLI
 
-The package exposes the `voidify` binary.
+このパッケージは `voidify` binary を提供します。
 
-Use it without installing globally:
+グローバルインストールせずに使う場合：
 
 ```bash
 npx @voidifydao/sdk --help
 ```
 
-Or install it globally with `-g` and run `voidify` directly:
+`-g` でグローバルインストールすると、`voidify` を直接実行できます。
 
 ```bash
 npm install -g @voidifydao/sdk
 voidify --help
 ```
 
-The recommended flow is: create one config file, fill it once, then pass it with `-c` for every command.
+推奨フローは、まず 1 つの config file を作成して一度だけ入力し、その後すべての command で `-c` にその config を渡す形です。
 
-### 1. Create a Config
+### 1. Config を作成する
 
 ```bash
 voidify config init --type default --path ./voidify-config.json
 ```
 
-This tutorial writes the config into the current directory as `./voidify-config.json`. If `--path` is omitted, the CLI uses its platform-specific default config path.
+このチュートリアルでは、config を現在のフォルダに `./voidify-config.json` として生成します。`--path` を省略した場合、CLI は platform-specific な default config path を使用します。
 
-Example user config:
+User config の例：
 
 ```json
 {
@@ -70,16 +70,16 @@ Example user config:
 }
 ```
 
-`programId` is required for on-chain operations. `proof.wasmPath` and `proof.zkeyPath` are required for withdrawal proof generation.
+`programId` は on-chain operations に必要です。`proof.wasmPath` と `proof.zkeyPath` は withdrawal proof generation に必要です。
 
-Download the proof artifacts from the Voidify ceremony record release and extract them into the current directory:
+Voidify ceremony record release から proof artifacts をダウンロードし、現在のフォルダに展開します。
 
 ```bash
 curl -L -o withdraw.zip https://github.com/VoidifyCommunity/voidify-ceremony-record/releases/download/v1.0.0/withdraw.zip
 unzip withdraw.zip
 ```
 
-After extraction, the config paths should point to:
+展開後、config の paths は次を指す必要があります。
 
 ```json
 "proof": {
@@ -88,7 +88,7 @@ After extraction, the config paths should point to:
 }
 ```
 
-You can inspect or update config values with the same `-c` flag:
+Config value の確認や変更にも同じ `-c` を使います。
 
 ```bash
 voidify -c ./voidify-config.json config get rpcUrl
@@ -96,15 +96,15 @@ voidify -c ./voidify-config.json config set rpcUrl '"https://mainnet.helius-rpc.
 ```
 
 
-### 2. Add Your RPC URL
+### 2. 自分の RPC URL を追加する
 
-Create your own Solana RPC endpoint before using the CLI. You can register at [Helius](https://www.helius.dev/), create an API key, and use the generated RPC URL in `./voidify-config.json`:
+CLI を使う前に、自分の Solana RPC endpoint を作成してください。[Helius](https://www.helius.dev/) に登録し、API key を作成して、生成された RPC URL を `./voidify-config.json` に入れます。
 
 ```json
 "rpcUrl": "https://mainnet.helius-rpc.com/?api-key=<YOUR_HELIUS_API_KEY>"
 ```
 
-### 3. Use the Config for Every Command
+### 3. 以降すべての Command でこの Config を使う
 
 ```bash
 voidify -c ./voidify-config.json note gen 1
@@ -123,9 +123,9 @@ voidify -c ./voidify-config.json relayer start
 voidify -c ./voidify-config.json substream
 ```
 
-## SDK Usage
+## SDK の使い方
 
-### Create a Context
+### Context を作成する
 
 ```ts
 import { Context, makeIndexedDBStores } from "@voidifydao/sdk";
@@ -147,7 +147,7 @@ const ctx = new Context({
 });
 ```
 
-### Generate a Note
+### Note を生成する
 
 ```ts
 import { Note } from "@voidifydao/sdk";
@@ -158,13 +158,12 @@ console.log(note.serialize());
 console.log(note.commitment);
 ```
 
-Notes are the withdrawal secret. Voidify cannot recover a lost note, and anyone with the note can withdraw the deposit.
+Note は withdrawal secret です。Voidify は紛失した note を復元できず、note を持つ人は誰でも対応する deposit を withdraw できます。
 
 ### Deposit
 
 ```ts
-import { Context, Note, voidify } from "@voidifydao/sdk";
-import { parseUnits } from "@voidifydao/sdk";
+import { Note, voidify, parseUnits } from "@voidifydao/sdk";
 
 const note = await Note.generate("1");
 
@@ -177,7 +176,7 @@ const signature = await voidify.deposit(
 console.log({ signature, note: note.serialize() });
 ```
 
-### List Deposits
+### Deposit を一覧する
 
 ```ts
 import { voidify, parseUnits } from "@voidifydao/sdk";
@@ -189,7 +188,7 @@ const deposits = await voidify.listDeposits(ctx, parseUnits("1", 9), {
 console.log(deposits);
 ```
 
-### Withdraw Through a Relayer
+### Relayer 経由で Withdraw する
 
 ```ts
 import { voidify } from "@voidifydao/sdk";
@@ -203,7 +202,7 @@ const signature = await voidify.withdraw(
 console.log(signature);
 ```
 
-To choose a specific relayer by name:
+特定の relayer を名前で選ぶ場合：
 
 ```ts
 const signature = await voidify.withdraw(
@@ -214,7 +213,7 @@ const signature = await voidify.withdraw(
 );
 ```
 
-### Prepare and Submit a Withdraw Separately
+### Withdrawal を準備して別途送信する
 
 ```ts
 import { voidify } from "@voidifydao/sdk";
@@ -240,11 +239,11 @@ const signature = await voidify.directWithdraw(
 );
 ```
 
-Direct withdrawals are signed by the caller's wallet and may expose the withdrawal wallet on-chain. Relayer withdrawals are the privacy-preserving default.
+Direct withdrawals は呼び出し元 wallet によって署名され、withdrawal wallet が on-chain で露出する可能性があります。Withdrawal privacy を守る場合は relayer withdrawals がデフォルトです。
 
 ## Program Helpers
 
-Use `VoidifyProgram` when you need deterministic PDAs or access to the underlying Anchor program.
+Deterministic PDA または underlying Anchor program へのアクセスが必要な場合は、`VoidifyProgram` を使用します。
 
 ```ts
 import { VoidifyProgram } from "@voidifydao/sdk";
@@ -259,7 +258,7 @@ const pool = client.pool(1_000_000_000n);
 const treasury = client.treasury();
 ```
 
-Available PDA helpers include:
+利用可能な PDA helpers：
 
 - `stakeConfig()`
 - `treasuryConfig()`
@@ -273,13 +272,13 @@ Available PDA helpers include:
 
 ## Relayer Service
 
-Create a relayer config:
+Relayer config を作成します。
 
 ```bash
 voidify config init --type relayer --path ./voidify.relayer.config.json
 ```
 
-The config must include:
+Config には次が必要です。
 
 - `rpcUrl`
 - `programId`
@@ -288,40 +287,40 @@ The config must include:
 - `relayerServer.host`
 - `relayerServer.feedId`
 
-Start the service:
+Service を起動します。
 
 ```bash
 voidify -c ./voidify.relayer.config.json relayer start
 ```
 
-The relayer exposes:
+Relayer は次を公開します。
 
 - `GET /health`
 - `POST /api/relay/withdraw`
 
 ## Substream Service
 
-Create a substream server config:
+Substream server config を作成します。
 
 ```bash
 voidify config init --type substream --path ./voidify.substream.config.json
 ```
 
-Start the service:
+Service を起動します。
 
 ```bash
 voidify -c ./voidify.substream.config.json substream
 ```
 
-The CLI and SDK can use substream data in three modes:
+CLI と SDK は substream data を 3 つの mode で利用できます。
 
-- `remote`: read events from a remote substream service;
-- `local`: read and sync using a local SQLite database;
-- `auto`: use the remote service with local caching.
+- `remote`：remote substream service から events を読み取る；
+- `local`：local SQLite database を使って読み取りと sync を行う；
+- `auto`：remote service を使い、local caching も行う。
 
 ## Exports
 
-Main exports:
+主な exports：
 
 - `Context`
 - `VoidifyProgram`
@@ -333,9 +332,9 @@ Main exports:
 - `SubstreamCliClient`
 - `makeIndexedDBStores`
 
-Types are exported from the package root, including deposit, relayer, event, substream, and withdrawal response types.
+Deposit、relayer、event、substream、withdrawal response 関連の types も package root から export されます。
 
-## Development
+## 開発
 
 ```bash
 npm install
@@ -343,12 +342,12 @@ npm run build
 npm run dev -- --help
 ```
 
-`npm run build` runs TypeScript compilation and alias rewriting with `tsc-alias`.
+`npm run build` は TypeScript compilation と `tsc-alias` による alias rewriting を実行します。
 
-## Security Notes
+## セキュリティ注意事項
 
-- Never share a Voidify note.
-- Store keypairs outside public repositories.
-- Use separate keypairs/config files for user, relayer, and substream roles.
-- Prefer relayer withdrawals when preserving withdrawal privacy matters.
-- Validate `programId`, RPC endpoints, relayer endpoints, and proof artifacts before production use.
+- Voidify note を絶対に共有しないでください。
+- Keypairs を公開 repository に置かないでください。
+- User、relayer、substream の role ごとに別々の keypair/config file を使用してください。
+- Withdrawal privacy が重要な場合は relayer withdrawals を優先してください。
+- Production 使用前に `programId`、RPC endpoints、relayer endpoints、proof artifacts を検証してください。
