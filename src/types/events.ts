@@ -11,6 +11,8 @@ export type WithdrawalEvent = VoidifyEventMap["withdrawalEvent"];
 export type DirectWithdrawalEvent = VoidifyEventMap["directWithdrawalEvent"];
 
 export type RelayerRegisteredEvent = VoidifyEventMap["relayerRegisteredEvent"];
+export type RelayerRegisteredV2Event =
+  VoidifyEventMap["relayerRegisteredV2Event"];
 export type RelayerUnregisteredEvent =
   VoidifyEventMap["relayerUnregisteredEvent"];
 export type RelayerDeactivatedEvent =

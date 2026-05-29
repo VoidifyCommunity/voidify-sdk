@@ -60,6 +60,7 @@ export const RELAYER_SCOPE: EventScope = {
 
 const RELAYER_LIVE_EVENTS = [
   "relayerRegisteredEvent",
+  "relayerRegisteredV2Event",
   "relayerUpdatedEvent",
   "relayerActivatedEvent",
   "relayerUnregisteredEvent",
@@ -201,8 +202,11 @@ function relayerEventToChainEvent(args: {
   config?: { name: string; url: string; feeBps: number } | null;
 }): ChainEventRecord {
   const payload = normalizePayload(args.event.data as Record<string, unknown>);
-  if (args.event.name === "relayerRegisteredEvent") {
-    payload.config = args.config ?? { name: "", url: "", feeBps: 0 };
+  if (isRelayerRegistrationEvent(args.event.name)) {
+    payload.config =
+      args.event.name === "relayerRegisteredV2Event"
+        ? relayerConfigFromV2Payload(payload)
+        : (args.config ?? { name: "", url: "", feeBps: 0 });
   }
 
   return {
@@ -222,6 +226,24 @@ function isIndexedRelayerEventName(
   name: string,
 ): name is IndexedRelayerEventName {
   return INDEXED_RELAYER_EVENT_NAMES.has(name as IndexedRelayerEventName);
+}
+
+function isRelayerRegistrationEvent(name: string): boolean {
+  return (
+    name === "relayerRegisteredEvent" || name === "relayerRegisteredV2Event"
+  );
+}
+
+function relayerConfigFromV2Payload(payload: Record<string, unknown>): {
+  name: string;
+  url: string;
+  feeBps: number;
+} {
+  return {
+    name: String(payload.name ?? ""),
+    url: String(payload.url ?? ""),
+    feeBps: Number(payload.feeBps ?? 0),
+  };
 }
 
 async function fetchRelayerConfig(
@@ -303,7 +325,8 @@ function reduceRelayerEvent(
   if (event.eventIndex <= record.lastEventIndex) return record;
 
   switch (event.eventName) {
-    case "relayerRegisteredEvent": {
+    case "relayerRegisteredEvent":
+    case "relayerRegisteredV2Event": {
       record.stakeAmount = payloadBigInt(event, "stakeAmount");
       record.isActive = true;
       const cfg = event.payload.config as RelayerConfigSnapshot | undefined;

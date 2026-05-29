@@ -812,6 +812,19 @@ export type Voidify = {
       ]
     },
     {
+      "name": "relayerRegisteredV2Event",
+      "discriminator": [
+        85,
+        71,
+        16,
+        202,
+        233,
+        182,
+        205,
+        120
+      ]
+    },
+    {
       "name": "relayerSlashedEvent",
       "discriminator": [
         26,
@@ -1114,6 +1127,38 @@ export type Voidify = {
           {
             "name": "stakeAmount",
             "type": "u64"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "relayerRegisteredV2Event",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "relayer",
+            "type": "pubkey"
+          },
+          {
+            "name": "stakeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "feeBps",
+            "type": "u16"
           },
           {
             "name": "index",
